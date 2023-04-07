@@ -22,11 +22,14 @@ The model was trained on the popular [Flickr8k dataset](https://paperswithcode.c
 
 ## Model
 
-![model architecture](assets/model_architecture.jpg)  
+<p align="center">
+<img src="assets/model_architecture.jpg" alt="model architecture">
+<p>
+
 The model consists of three sub-models:
 
-- CNN: This layer is used to extract the feature map from the image. This feature map is then leaned by further layers to then create captions for the image. Rather than creating complicated network, this CNN layer uses the EfficientNetB0 architecture. The EfficientNet is then freezed to only work as feature extractor.
+- **CNN** : This layer is used to extract the feature map from the image. This feature map is then leaned by further layers to then create captions for the image. Rather than creating complicated network, this CNN layer uses the EfficientNetB0 architecture. The EfficientNet is then freezed to only work as feature extractor.
+- **Encoder Block** : Once the feature map was acquired, with the positional and token embeddings of the true label, the encoder does linear algebra operations to get the semantic meaning behind the words. The encoder block uses **self-attention** mechanism to enrich each token (embedding vector) with contextual information from the whole sentence. This self-attention employs multiple heads so that the model can tap into different embedding subspaces. This is then passed through a feed-forward neural network for further transformation. This also uses _residual connections_, which carry over the previous embeddings to subsequent layers.
+- **Decoder Block** : The decoder is reponsoble for generating the output sequence by attending to the encoded input sequence. THe decoder consists of a stack of N identical layers, each of which is composed of two sub-layers: a masked multi-head self-attention mechanism and a feed-forward network. The masked multi-head self-attention mechanism allows the decoder to attend to previously generated output tokens while preventing it from attending to future tokens. By attending to the encoded input sequence with multi-head attention, the decoder can produce output tokens that depend on both the input and the previous output tokens. The feed-forward network applies a non-linear transformation to the output of the attention mechanism.
 
 ## References
-
-## Repository structure
